@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Dev-intensive</string>
+    <plurals name="seconds">
+        <item quantity="one">секунда</item>
+        <item quantity="two">секуды</item>
+        <item quantity="few">секунд</item>
+    </plurals>
+</resources>
