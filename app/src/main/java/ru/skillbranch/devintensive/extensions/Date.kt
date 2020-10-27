@@ -27,7 +27,7 @@ fun Date.add(value: Int, timeUnits: TimeUnits): Date {
 }
 
 fun Date.humanizeDiff(date: Date = Date()): String {
-    val dateDiff = ( date.time -this.time ) / 1000
+    val dateDiff = (date.time - this.time) / 1000
 
     return when (dateDiff) {
         in 0..1 -> "Только что"

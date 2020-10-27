@@ -1,7 +1,5 @@
 package ru.skillbranch.devintensive.utils
 
-import java.lang.StringBuilder
-
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -100,7 +98,7 @@ object Utils {
             initials = i1
             return initials
         }
-        if (firstName.isNullOrEmpty() && !lastName.isNullOrEmpty()){
+        if (firstName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
             i2 = lastName[0].toUpperCase().toString()
             initials = i2
         } else return null

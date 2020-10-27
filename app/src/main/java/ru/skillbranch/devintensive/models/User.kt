@@ -1,7 +1,5 @@
 package ru.skillbranch.devintensive.models
 
-import android.text.BoringLayout
-import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
 data class User(
