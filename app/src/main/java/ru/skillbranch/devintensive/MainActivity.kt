@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 import ru.skillbranch.devintensive.models.ImageMessage
 
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         benderImage = iv_bender
         textText = tv_text
         messageEt = et_message
@@ -32,12 +34,14 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
 
         val status = savedInstanceState?.getString("STATUS") ?: Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString("QUESTION") ?: Bender.Question.NAME.name
+        val textMes = savedInstanceState?.getString("TEXT") ?: ""
         benderObj = Bender(Bender.Status.valueOf(status),Bender.Question.valueOf(question))
 
-        Log.d("M_MainActivity", "onCreate $status $question")
+        Log.d("M_MainActivity", "onCreate $status $question $textMes")
         val (r,g,b) = benderObj.status.color
         benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
 
+        messageEt.setText(textMes)
         textText.text = benderObj.askQuestion()
         sendBtn.setOnClickListener (this)
     }
@@ -57,7 +61,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         Log.d("M_MainActivity", "onResume")
     }
 
-    override fun onPause() {
+    override  fun onPause() {
         super.onPause()
         Log.d("M_MainActivity", "onPause")
     }
@@ -72,12 +76,13 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         Log.d("M_MainActivity", "onDestroy")
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
+        outState?.putString("TEXT",messageEt.text.toString())
         outState?.putString("STATUS",benderObj.status.name)
         outState?.putString("QUESTION",benderObj.question.name)
-        Log.d("M_MainActivity","onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name}")
+        Log.d("M_MainActivity","onSaveInstanceState ${benderObj.status.name} ${benderObj.question.name} ${messageEt.text.toString()}")
     }
 
     override fun onClick(v: View?) {
@@ -87,6 +92,7 @@ if  (v?.id == R.id.iv_send){
     val (r,g,b) = color
     benderImage.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
     textText.text = phrase
+    hideKeyboard()
 }
     }
 }

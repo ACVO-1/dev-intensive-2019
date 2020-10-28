@@ -1,5 +1,9 @@
 package ru.skillbranch.devintensive.models
 
+import android.util.Log
+import ru.skillbranch.devintensive.MainActivity
+import java.util.jar.Attributes
+
 class Bender(var status: Status = Status.NORMAL, var question: Question = Question.NAME) {
 
     fun askQuestion(): String = when (question) {
@@ -12,20 +16,38 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
     }
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
+        if (question.name == Question.IDLE.name){
+            question = Question.NAME
+            status = Status.NORMAL
+             "Отлично - ты справился\nНа этом все, вопросов больше нет" to status.color
+            if (question.name== Question.NAME.name){
+                return question.question to status.color
+            }
+        }
        return if (question.answers.contains(answer)){
+
            question = question.nextQuestion()
             "Отлично - это правильный ответ!\n${question.question}" to status.color
         }else{
+           if (status.name == Status.CRITICAL.name){
+                Log.d("M_Main","qqq")
+               question = Question.NAME
+               status = Status.NORMAL
+              return "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+           }
            status = status.nextStatus()
+           Log.d("M_Main","${status.name} ")
             "Это не правильный ответ\n${question.question}!" to status.color
+
         }
     }
 
-    enum class Status(val color : Triple<Int, Int, Int>){
-        NORMAL(Triple(255,255,255)),
-        WARNING(Triple(255,120,0)),
-        DANGER(Triple(255,60,60)),
-        CRITICAL(Triple(255,255,0));
+    enum class Status(val color: Triple<Int,Int,Int>) {
+        NORMAL(Triple(255, 255, 255)) ,
+        WARNING(Triple(255, 120, 0)),
+        DANGER(Triple(255, 60, 60)),
+        CRITICAL(Triple(255, 0, 0)) ;
+
 
         fun nextStatus():Status{
             return if(this.ordinal< values().lastIndex){
@@ -53,9 +75,10 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
             override fun nextQuestion(): Question = IDLE
         },
         IDLE("На этом все, вопросов больше нет", listOf()){
-            override fun nextQuestion(): Question = IDLE
+            override fun nextQuestion(): Question = NAME
         };
 
         abstract fun  nextQuestion(): Question
     }
+
 }
