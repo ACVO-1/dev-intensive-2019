@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
       val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
           viewModel.addToArchive(it.id)
       Snackbar.make(rv_chat_list,"Вы точно хотите добавить ${it.title} в архив?",Snackbar.LENGTH_LONG)
+          chatAdapter.notifyDataSetChanged()
       }
       val touchHelper = ItemTouchHelper(touchCallback)
       touchHelper.attachToRecyclerView(rv_chat_list)

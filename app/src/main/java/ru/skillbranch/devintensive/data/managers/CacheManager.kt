@@ -4,18 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import ru.skillbranch.devintensive.extensions.mutableLiveData
 import ru.skillbranch.devintensive.models.data.Chat
 import ru.skillbranch.devintensive.models.data.User
+import ru.skillbranch.devintensive.utils.DataGenerator
 
 object CacheManager {
-    fun generateToha(): List<User> {
-        val user = User("0","Toha","Boba")
-        return  listOf(user)}
 
-    private fun generateChatToha():Chat{
-        return Chat("0","ZELEBOBA", generateToha())
-    }
 
-    private val chats = mutableLiveData(listOf(generateChatToha()))
-    private val users = mutableLiveData(generateToha())
+
+    private val chats = mutableLiveData(DataGenerator.stabChats)
+    private val users = mutableLiveData(DataGenerator.stabUsers)
 
     fun loadChats(): MutableLiveData<List<Chat>>{
         return chats
